@@ -1,26 +1,33 @@
 #include <stdio.h>
-#include <stdlib.h>
 
-int main(int argc, char *argv[])
+unsigned long int calcMersenne(unsigned long int expoente);
+unsigned long int lucasLehmer(unsigned long int expoente, unsigned long int mersenneNumber);
+
+int main()
 {
-	int i, s, p, mp;
+	unsigned long int p, s, mp;
 
-	p = atoi(argv[1]);
-
-	mp = 2;
-	for(i = 2; i <= p; i++)
-		mp *= 2;
-	mp--;
-
-	s = 4;
-	for(i = 2; i <= p - 1; i++)
+	for (p = 3; ; p += 2)
 	{
-		s = s * s - 2;
-		printf("%d\n", s);
+		mp = calcMersenne(p);
+		s = lucasLehmer(p, mp);
+		if (s == 0)
+			printf("M%lu é primo. - %lu -\n\n", p, mp);
 	}
+}
 
-	if(s % mp == 0)
-		printf("M%d é primo.\n\n", p);
-	else
-		printf("M%d é composto.\n\n", p);
+unsigned long int calcMersenne(unsigned long int expoente)
+{
+	unsigned long int mp = 2, i;
+	for (i = 2; i <= expoente; i++)
+		mp *= 2;
+	return --mp;
+}
+
+unsigned long int lucasLehmer(unsigned long int expoente, unsigned long int mersenneNumber)
+{
+	unsigned long int s = 4, i;
+	for (i = 1; i <= expoente - 2; i++)
+		s = (s * s - 2) % mersenneNumber;
+	return s;
 }

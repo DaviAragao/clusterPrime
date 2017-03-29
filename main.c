@@ -1,7 +1,10 @@
 #include <gmp.h>
 #include <pthread.h>
+#include <mysql.h>
 
 void *getPrime(void *p);
+void mysql(void);
+
 int main()
 {
 	int p;
@@ -9,7 +12,7 @@ int main()
 
 	for (p = 3; ; p += 2)
 		if (!pthread_create(&thread, NULL, getPrime, &p))
-		gmp_printf("Thread criada. Expoente %d%c%c", p, 10);
+			gmp_printf("Thread criada. Expoente %d%c%c", p, 10);
 }
 
 void *getPrime(void *p)
@@ -33,4 +36,21 @@ void *getPrime(void *p)
 
 	if (mpz_sgn(s) == 0)
 		gmp_printf("M%d%c%Zd %c%c", expoente, 10, mersenneNumber, 10, 10);
+}
+
+void mysql(void)
+{
+	MYSQL conexao;
+
+	mysql_init(&conexao);
+	if (mysql_real_connect(&conexao, "localhost", "root", "root", "teste", 0, NULL, 0))
+	{
+	    printf("conectado com sucesso!\n");
+	    mysql_close(&conexao);
+	}
+	else
+	{
+	    printf("Falha de conexao\n");
+	    printf("Erro %d : %s\n", mysql_errno(&conexao), mysql_error(&conexao));
+	}
 }

@@ -1,24 +1,24 @@
 #include <gmp.h>
-#include <pthread.h>
-#include <mysql.h>
+//#include <pthread.h>
+#include <mysql/mysql.h>
 
-void *getPrime(void *p);
+void getPrime(int);
 void mysql(void);
-
 int main()
 {
 	int p;
-	pthread_t thread;
+	//pthread_t thread;
 
 	for (p = 3; ; p += 2)
-		if (!pthread_create(&thread, NULL, getPrime, &p))
-			gmp_printf("Thread criada. Expoente %d%c%c", p, 10);
+		//if (!pthread_create(&thread, NULL, getPrime, &p))
+		//gmp_printf("Thread criada. Expoente %d%c%c", p, 10);
+		getPrime(p);
 }
 
-void *getPrime(void *p)
+void getPrime(int p)
 {
 	mpz_t mersenneNumber, s, aux;
-	int i, expoente = * (int *) p;
+	int i, expoente = p;
 
 	mpz_init(mersenneNumber);
 	mpz_init(s);
@@ -38,19 +38,19 @@ void *getPrime(void *p)
 		gmp_printf("M%d%c%Zd %c%c", expoente, 10, mersenneNumber, 10, 10);
 }
 
-void mysql(void)
-{
-	MYSQL conexao;
-
-	mysql_init(&conexao);
-	if (mysql_real_connect(&conexao, "localhost", "root", "root", "teste", 0, NULL, 0))
-	{
-	    printf("conectado com sucesso!\n");
-	    mysql_close(&conexao);
-	}
-	else
-	{
-	    printf("Falha de conexao\n");
-	    printf("Erro %d : %s\n", mysql_errno(&conexao), mysql_error(&conexao));
-	}
-}
+//void mysql(void)
+//{
+//	MYSQL conexao;
+//
+//	mysql_init(&conexao);
+//	if (mysql_real_connect(&conexao, "localhost", "root", "root", "teste", 0, NULL, 0))
+//	{
+//	    printf("conectado com sucesso!\n");
+//	    mysql_close(&conexao);
+//	}
+//	else
+//	{
+//	    printf("Falha de conexao\n");
+//	    printf("Erro %d : %s\n", mysql_errno(&conexao), mysql_error(&conexao));
+//	}
+//}

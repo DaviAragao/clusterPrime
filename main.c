@@ -1,41 +1,63 @@
+#include <stdio.h>
+#include <mpi.h>
 #include <gmp.h>
-//#include <pthread.h>
-#include <mysql/mysql.h>
+//#include <mysql/mysql.h>
 
-void getPrime(int);
+int getProcessorNumber(int, int *);
 void mysql(void);
 int main()
 {
-	int p;
-	//pthread_t thread;
-
-	for (p = 3; ; p += 2)
-		//if (!pthread_create(&thread, NULL, getPrime, &p))
-		//gmp_printf("Thread criada. Expoente %d%c%c", p, 10);
-		getPrime(p);
-}
-
-void getPrime(int p)
-{
+	int i, p, a, expoente, size, rank, processor = 0;
+	MPI_Status status;
 	mpz_t mersenneNumber, s, aux;
-	int i, expoente = p;
+
+	MPI_Init(NULL, NULL);
+	MPI_Comm_size(MPI_COMM_WORLD, &size);
+	MPI_Comm_rank(MPI_COMM_WORLD, &rank);
 
 	mpz_init(mersenneNumber);
 	mpz_init(s);
 	mpz_init(aux);
 
-	mpz_ui_pow_ui(mersenneNumber, (long)(2), expoente);
-	mpz_sub_ui(mersenneNumber, mersenneNumber, (long)(1));
-	mpz_set_ui(s, (long)(4));
-
-	for (i = 1; i <= expoente - 2; i++)
+	/*
+	 * Master.
+	 * */
+	if (rank == 0)
 	{
-		mpz_powm_ui(aux, s, (long)(2), mersenneNumber); 
-		mpz_sub_ui(s, aux, (long)(2)); 
+		for (p = 3; ; p += 2)
+			MPI_Send(&p, 1, MPI_INT, getProcessorNumber(size, &processor), 0, MPI_COMM_WORLD);
+	}
+	/*
+	 * Slaves.
+	 * */
+	else
+	{
+		for(; ;)
+		{
+			MPI_Recv(&expoente, 1, MPI_INT, 0, 0, MPI_COMM_WORLD, &status);
+			mpz_ui_pow_ui(mersenneNumber, (long)(2), expoente);
+			mpz_sub_ui(mersenneNumber, mersenneNumber, (long)(1));
+			mpz_set_ui(s, (long)(4));
+
+			for (i = 1; i <= expoente - 2; i++)
+			{
+				mpz_powm_ui(aux, s, (long)(2), mersenneNumber); 
+				mpz_sub_ui(s, aux, (long)(2)); 
+			}
+
+			if (mpz_sgn(s) == 0)
+				gmp_printf("Processador: %d - M%d%c%Zd %c%c", rank, expoente, 10, mersenneNumber, 10, 10);
+		}
 	}
 
-	if (mpz_sgn(s) == 0)
-		gmp_printf("M%d%c%Zd %c%c", expoente, 10, mersenneNumber, 10, 10);
+	MPI_Finalize();
+}
+
+int getProcessorNumber(int size, int *processor)
+{
+	if (++(*processor) >= size)
+		*processor = 1;
+	return *processor;
 }
 
 //void mysql(void)

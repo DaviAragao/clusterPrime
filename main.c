@@ -1,7 +1,8 @@
-#include <stdio.h>
 #include <mpi.h>
 #include <gmp.h>
 //#include <mysql/mysql.h>
+
+#define NULL ((void *) 0)
 
 int getProcessorNumber(int, int *);
 void mysql(void);
@@ -23,10 +24,8 @@ int main()
 	 * Master.
 	 * */
 	if (rank == 0)
-	{
 		for (p = 3; ; p += 2)
 			MPI_Send(&p, 1, MPI_INT, getProcessorNumber(size, &processor), 0, MPI_COMM_WORLD);
-	}
 	/*
 	 * Slaves.
 	 * */

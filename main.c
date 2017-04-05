@@ -2,13 +2,15 @@
 #include <gmp.h>
 //#include <mysql/mysql.h>
 
+#ifndef NULL
 #define NULL ((void *) 0)
+#endif
 
 int getProcessorNumber(int, int *);
 void mysql(void);
 int main()
 {
-	int i, p, a, expoente, size, rank, processor = 0;
+	int i, p, expoente, size, rank, processor = 0;
 	MPI_Status status;
 	mpz_t mersenneNumber, s, aux;
 

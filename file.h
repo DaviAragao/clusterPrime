@@ -1,7 +1,14 @@
 #include <stdio.h>
 
-#define MAX_LINES_FILE_CONFIG 4
-#define FILE_CONF_NAME "conf.json"
+#define MAX_SIZE_NAMES_CONFIG 32
+#define FILE_CONF_NAME "conf"
 
-char *getConfigFile();
-char *getConfs();
+typedef struct
+{
+	char host[MAX_SIZE_NAMES_CONFIG];
+	char port[MAX_SIZE_NAMES_CONFIG];
+}configuracao;
+
+configuracao *getConfs();
+char *getHost();
+char *getPort();

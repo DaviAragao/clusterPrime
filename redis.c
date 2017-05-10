@@ -14,7 +14,9 @@ void *connectRedis()
 
 int main()
 {
-	getConfs();
+	configuracao conf = getConfs();
+	printf("%s", conf.host);
+	printf("%s", conf.port);
 	//int port = 6379, i;
 	//redisReply *reply;
 	//redisContext *c = redisConnect("localhost", port);

@@ -1,5 +1,6 @@
 #include <mpi.h>
 #include <gmp.h>
+#include "database.h"
 
 #ifndef NULL
 #define NULL ((void *) 0)

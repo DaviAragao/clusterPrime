@@ -33,6 +33,7 @@ int main()
 			mpz_ui_pow_ui(mersenneNumber, (long)(2), expoente);
 			mpz_sub_ui(mersenneNumber, mersenneNumber, (long)(1));
 			mpz_set_ui(s, (long)(4));
+			getNextPrime();
 
 			for (i = 1; i <= expoente - 2; i++)
 			{

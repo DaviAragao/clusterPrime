@@ -1,16 +1,25 @@
-# Nome do compilador
 CC=mpicc
+CFLAGS=-I$(IDIR)
 
-all: 
+IDIR=includes
+ODIR=obj
+SRCDIR=src
 
-printy: main.o database.o
-	gcc -o printy main.o helloWorld.o
+LIBS=-lgmp -lcurl
 
-main.o: main.c helloWorld.h
-	gcc -o main.o main.c -c -W -Wall -ansi -pedantic
+_DEPS = database.h
+DEPS = $(patsubst %,$(IDIR)/%,$(_DEPS))
 
-helloWorld.o: helloWorld.c helloWorld.h
-	gcc -o helloWorld.o helloWorld.c -c -W -Wall -ansi -pedantic
+_OBJ = main.o database.o 
+OBJ = $(patsubst %,$(ODIR)/%,$(_OBJ))
+
+$(ODIR)/%.o: $(SRCDIR)/%.c $(DEPS)
+	$(CC) -c -o $@ $< $(CFLAGS)
+
+main: $(OBJ)
+	$(CC) -o $@ $^ $(CFLAGS) $(LIBS)
+
+.PHONY: clean
 
 clean:
-	rm -rf *.o *~ printy
+	rm -f $(ODIR)/*.o $(INCDIR)/*~

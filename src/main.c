@@ -23,17 +23,22 @@ int main()
 	mpz_init(aux);
 
 	if (rank == 0)
-		for (p = 3; ; p += 2)
+	{
+		p = getNextPrime();
+		putPrime(p, "34:64:a9:00:d0:23", "aragao", true);
+		while(1)
+		{
 			MPI_Send(&p, 1, MPI_INT, getProcessorNumber(size, &processor), 0, MPI_COMM_WORLD);
+		}
+	}
 	else
 	{
-		for(; ;)
+		while(1)
 		{
 			MPI_Recv(&expoente, 1, MPI_INT, 0, 0, MPI_COMM_WORLD, &status);
 			mpz_ui_pow_ui(mersenneNumber, (long)(2), expoente);
 			mpz_sub_ui(mersenneNumber, mersenneNumber, (long)(1));
 			mpz_set_ui(s, (long)(4));
-			getNextPrime();
 
 			for (i = 1; i <= expoente - 2; i++)
 			{

@@ -1,5 +1,5 @@
 CC=mpicc
-CFLAGS=-I$(IDIR)
+CFLAGS=-I$(IDIR) -g
 
 IDIR=includes
 ODIR=obj

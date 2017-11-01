@@ -1,3 +1,4 @@
+#include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <curl/curl.h>
@@ -14,14 +15,12 @@ int getNextPrime(void)
 
 bool putPrime(int prime, char *macAddres, char* name, bool mersenne)
 {
-	puts("Será que deu ruim?");
-	printf("%s", makePutJson(macAddres, name, mersenne));
 	return generatePutRequest(makePutJson(macAddres, name, mersenne), prime);
 }
 
-char *makePutJson(char *macAddres, char* name, bool mersenne)
+const char *makePutJson(char *macAddres, char* name, bool mersenne)
 {
-	char *body;
+	static char body[110];
 	sprintf(body, "{\"calc\": 2, \"machine\": {\"clientType\": 1,\"macAddres\": \"%s\",\"name\": \"%s\"},\"mersenne\": %d}", macAddres, name, mersenne);
 
 	return body;
@@ -32,13 +31,15 @@ void writefunc(void *ptr, size_t size, size_t nmemb, void *stream)
 	response = (char *) ptr;
 }
 
-bool generatePutRequest(char *body, int prime)
+bool generatePutRequest(const char *body, int prime)
 {
 	char *url = API;
+	char cPrime = prime + '0';
 	CURL *curl;
 	CURLcode res;
 
-	strcat(url, (char *) &prime);
+	printf("%s%c%c", url, 10, cPrime);
+	printf("%s", strcat(url, &cPrime));
 	printf("%s", body);
 	curl = curl_easy_init();
 	curl_easy_setopt(curl, CURLOPT_URL, url);

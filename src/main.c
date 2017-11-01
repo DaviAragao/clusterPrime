@@ -1,3 +1,4 @@
+#include <stdio.h>
 #include <mpi.h>
 #include <gmp.h>
 #include "database.h"
@@ -24,12 +25,10 @@ int main()
 
 	if (rank == 0)
 	{
-		p = getNextPrime();
+		p = 2;
 		putPrime(p, "34:64:a9:00:d0:23", "aragao", true);
-		while(1)
-		{
+		for(p = 3; ; p += 2)
 			MPI_Send(&p, 1, MPI_INT, getProcessorNumber(size, &processor), 0, MPI_COMM_WORLD);
-		}
 	}
 	else
 	{

@@ -33,22 +33,23 @@ void writefunc(void *ptr, size_t size, size_t nmemb, void *stream)
 
 bool generatePutRequest(const char *body, int prime)
 {
-	char *url = API;
-	char cPrime = prime + '0';
+	struct curl_slist *headers = NULL;
+	char url[100];
 	CURL *curl;
 	CURLcode res;
 
-	printf("%s%c%c", url, 10, cPrime);
-	printf("%s", strcat(url, &cPrime));
-	printf("%s", body);
+	sprintf(url, "%s%d", API, prime);
+
 	curl = curl_easy_init();
+	headers = curl_slist_append(headers, "Content-Type: application/json");
+	
+	curl_easy_setopt(curl, CURLOPT_HTTPHEADER, headers);
 	curl_easy_setopt(curl, CURLOPT_URL, url);
 	curl_easy_setopt(curl, CURLOPT_CUSTOMREQUEST, "PUT");
 	curl_easy_setopt(curl, CURLOPT_POSTFIELDS, body);
-	curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, writefunc);
 
-	puts("Aqui na requisição?");
 	res = curl_easy_perform(curl);
+	curl_slist_free_all(headers);
 	curl_easy_cleanup(curl);
 
 	return res == CURLE_OK;

@@ -1,32 +1,22 @@
-# Primos
-### A busca incansável por novos primos de Mersenne
+# clusterPrime
+### Algorítimo para a busca de números primos de mersenne usando cluster beowulf mpi.
 
-Trabalho de conclusão de curso. Davi Augusto Aragão. IFSP.
+[Referência acadêmica.](http://sinte.btv.ifsp.edu.br/index.php/SInTE/article/view/367)
 
 #### Usando o programa
 
-1. Clone o projeto:
+##### Dependências
 
-`git clone https://github.com/DaviAragao/primos.git`
-
-2. Instale as dependências do projeto:
-
-  1.  Instale a biblioteca [GMP](https://gmplib.org/):
+  1. [GMP](https://gmplib.org/) `sudo apt-get install libgmp3-dev`.
   
-    **Linux:** `sudo apt-get install libgmp3-dev`
-    
-    **Windows:** [Link](http://cs.nyu.edu/~exact/core/gmp/index.html)
-    
-  2.  Instale a biblioteca [MPICH2](http://www.mpich.org/):
+  2. [libcurl](https://curl.haxx.se/libcurl/) `sudo apt-get install libcurl4-openssl-dev`.
   
-    **Linux:** [Link](http://mpitutorial.com/tutorials/installing-mpich2/)
-    
-    **Windows:** [Link](http://swash.sourceforge.net/online_doc/swashimp/node9.html)
-    
-3. Compile o programa:
+  3. [MPICH](http://www.mpich.org/) Instruções para a instalação e primeiros passos [aqui.](http://mpitutorial.com/tutorials/installing-mpich2/)
+  
+##### Compilação
 
-`gcc main.c -o main -lgmp`
+  `make`
 
-4. Execute o programa:
+##### Execução do programa
 
-`./main`
+  `mpirun -np 8 --hostfile hosts ./clusterPrime`

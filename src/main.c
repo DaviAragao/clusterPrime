@@ -56,6 +56,8 @@ int main()
 			putPrime(expoente, getMacAddres(), getHostName(), (mpz_sgn(s) == 0));
 			if (mpz_sgn(s) == 0)
 				gmp_printf("Processador: %d - M%d%c%Zd %c%c", rank, expoente, 10, mersenneNumber, 10, 10);
+			else
+				printf("M%d - Não é primo.%c", expoente, 10);
 		}
 	}
 

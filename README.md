@@ -15,8 +15,8 @@
   
 ##### Compilação
 
-    `make`
+   `make`
 
 ##### Execução do programa
 
-    `mpirun -np 8 --hostfile hosts ./clusterPrime`
+   `mpirun -np 8 --hostfile hosts ./clusterPrime`

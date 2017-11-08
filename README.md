@@ -11,12 +11,12 @@
   
   2. [libcurl](https://curl.haxx.se/libcurl/) `sudo apt-get install libcurl4-openssl-dev`.
   
-  3. [MPICH](http://www.mpich.org/) Instruções para a instalação e primeiros passos [aqui.](http://mpitutorial.com/tutorials/installing-mpich2/)
+  3. [MPICH](http://www.mpich.org/) Instruções para a instalação e primeiros passos [aqui.](http://mpitutorial.com/tutorials/installing-mpich2/)
   
 ##### Compilação
 
-  `make`
+    `make`
 
 ##### Execução do programa
 
-  `mpirun -np 8 --hostfile hosts ./clusterPrime`
+    `mpirun -np 8 --hostfile hosts ./clusterPrime`
